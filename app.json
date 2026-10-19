@@ -1,7 +1,7 @@
 {
   "name": "ADEZ XMD",
   "description": "WhatsApp bot by Arnold Adez",
-  "repository": "https://github.com/yourname/adez-xmd",
+  "repository": "https://github.com/adeztech2/ADEZ-XMD",
   "keywords": ["node", "whatsapp", "bot"],
   "env": {
     "SESSION_ID": {
