@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>ADEZ XMD · Pair</title>
+  <style>
+    :root {
+      --bg1: #0b0f1a;
+      --bg2: #141b2e;
+      --card: rgba(255, 255, 255, 0.05);
+      --border: rgba(255, 255, 255, 0.1);
+      --text: #e8ecf5;
+      --muted: #8a94ad;
+      --accent: #25d366;
+      --accent2: #14b8a6;
+      --danger: #ff6b6b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { min-height: 100%; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: radial-gradient(circle at top, var(--bg2), var(--bg1));
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      padding-top: calc(24px + env(safe-area-inset-top, 0px));
+      padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+    }
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 28px 24px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+    .brand { text-align: center; margin-bottom: 24px; }
+    .logo {
+      width: 64px; height: 64px; margin: 0 auto 12px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: grid; place-items: center;
+      font-weight: 800; font-size: 20px; color: #04130b;
+      box-shadow: 0 8px 24px rgba(37, 211, 102, 0.35);
+    }
+    h1 { font-size: 22px; font-weight: 700; letter-spacing: 0.3px; }
+    .sub { color: var(--muted); font-size: 14px; margin-top: 4px; }
+    label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+    input, textarea {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 14px 16px;
+      font-size: 16px;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    input:focus, textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(37, 211, 102, 0.15);
+    }
+    .hint { font-size: 12px; color: var(--muted); margin-top: 8px; }
+    button {
+      width: 100%;
+      margin-top: 16px;
+      border: none;
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #04130b;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      cursor: pointer;
+      transition: transform .15s, opacity .2s;
+    }
+    button:active { transform: scale(0.98); }
+    button:disabled { opacity: .6; cursor: not-allowed; }
+    .secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text);
+    }
+    .hidden { display: none !important; }
+    .error {
+      margin-top: 14px; padding: 12px 14px; border-radius: 12px;
+      background: rgba(255, 107, 107, 0.12); color: var(--danger);
+      font-size: 14px;
+    }
+    .spinner {
+      width: 22px; height: 22px; margin: 0 auto 10px;
+      border: 3px solid rgba(255,255,255,.15); border-top-color: var(--accent);
+      border-radius: 50%; animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .status { text-align: center; color: var(--muted); font-size: 14px; margin-top: 16px; }
+    .code-box { text-align: center; margin-top: 20px; }
+    .code {
+      display: inline-block;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 28px; font-weight: 700; letter-spacing: 4px;
+      padding: 14px 20px; border-radius: 14px;
+      background: rgba(37, 211, 102, 0.1);
+      border: 1px dashed var(--accent);
+      color: var(--accent);
+    }
+    ol { margin-top: 18px; padding-left: 20px; color: var(--muted); font-size: 14px; line-height: 1.8; }
+    .success { text-align: center; }
+    .check {
+      width: 56px; height: 56px; margin: 0 auto 10px; border-radius: 50%;
+      background: rgba(37, 211, 102, 0.15); color: var(--accent);
+      display: grid; place-items: center; font-size: 28px;
+    }
+    .warn {
+      margin-top: 14px; font-size: 13px; color: #f5c451;
+      background: rgba(245, 196, 81, 0.1); padding: 10px 12px; border-radius: 12px;
+    }
+    .footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 22px; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <header class="brand">
+      <div class="logo">AX</div>
+      <h1>ADEZ XMD</h1>
+      <p class="sub">Link your WhatsApp and get your session ID</p>
+    </header>
+
+    <!-- Step 1: number input -->
+    <section id="step-form">
+      <form id="form" autocomplete="off">
+        <label for="number">WhatsApp number with country code</label>
+        <input id="number" type="tel" inputmode="numeric" placeholder="e.g. 2348012345678" required />
+        <p class="hint">Digits only, no + or spaces.</p>
+        <button id="submit" type="submit">Get pairing code</button>
+      </form>
+      <div id="error-form" class="error hidden"></div>
+    </section>
+
+    <!-- Step 2: waiting and code -->
+    <section id="step-wait" class="hidden">
+      <div class="spinner" id="spinner"></div>
+      <p class="status" id="status-text">Preparing your pairing code…</p>
+
+      <div class="code-box hidden" id="code-box">
+        <div class="code" id="code"></div>
+        <ol>
+          <li>Open WhatsApp on your phone</li>
+          <li>Go to Settings → Linked devices → Link a device</li>
+          <li>Tap "Link with phone number instead" and enter this code</li>
+        </ol>
+      </div>
+      <div id="error-wait" class="error hidden"></div>
+      <button id="retry" class="secondary hidden" type="button">Try again</button>
+    </section>
+
+    <!-- Step 3: session ID -->
+    <section id="step-done" class="hidden success">
+      <div class="check">✓</div>
+      <h2 style="font-size:18px;">Connected successfully</h2>
+      <p class="sub" style="margin-bottom:16px;">Copy your session ID and add it as the SESSION_ID variable.</p>
+      <textarea id="session" rows="5" readonly></textarea>
+      <button id="copy" type="button">Copy session ID</button>
+      <div class="warn">Keep this private. Anyone with it can access your WhatsApp account.</div>
+      <button id="again" class="secondary" type="button">Pair another number</button>
+    </section>
+
+    <p class="footer">Developed by Arnold Adez</p>
+  </main>
+
+  <script>
+    const $ = (s) => document.querySelector(s)
+    let timer = null
+
+    function show(id) {
+      ['step-form', 'step-wait', 'step-done'].forEach(s => $('#' + s).classList.toggle('hidden', s !== id))
+    }
+
+    function setError(where, msg) {
+      const el = $('#error-' + where)
+      el.textContent = msg || ''
+      el.classList.toggle('hidden', !msg)
+    }
+
+    function reset() {
+      clearInterval(timer)
+      $('#submit').disabled = false
+      $('#code-box').classList.add('hidden')
+      $('#retry').classList.add('hidden')
+      $('#spinner').classList.remove('hidden')
+      $('#status-text').textContent = 'Preparing your pairing code…'
+      setError('wait', '')
+      show('step-form')
+    }
+
+    $('#form').addEventListener('submit', async (e) => {
+      e.preventDefault()
+      const number = $('#number').value.replace(/\D/g, '')
+      setError('form', '')
+      $('#submit').disabled = true
+
+      try {
+        const r = await fetch('/api/pair', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ number })
+        })
+        const d = await r.json()
+        if (!r.ok) throw new Error(d.error || 'Something went wrong')
+
+        show('step-wait')
+        poll(d.id)
+      } catch (err) {
+        setError('form', err.message)
+        $('#submit').disabled = false
+      }
+    })
+
+    function poll(id) {
+      clearInterval(timer)
+      timer = setInterval(async () => {
+        try {
+          const r = await fetch('/api/status/' + id)
+          const d = await r.json()
+
+          if (d.code) {
+            $('#code').textContent = d.code
+            $('#code-box').classList.remove('hidden')
+            $('#spinner').classList.add('hidden')
+            $('#status-text').textContent = 'Waiting for you to enter the code…'
+          }
+
+          if (d.status === 'connected') {
+            clearInterval(timer)
+            $('#session').value = d.sessionId
+            show('step-done')
+          }
+
+          if (d.status === 'error' || d.status === 'expired') {
+            clearInterval(timer)
+            $('#spinner').classList.add('hidden')
+            $('#code-box').classList.add('hidden')
+            $('#status-text').textContent = ''
+            setError('wait', d.error || 'Pairing failed. Please try again.')
+            $('#retry').classList.remove('hidden')
+          }
+        } catch {
+          // Network blip: keep polling
+        }
+      }, 2000)
+    }
+
+    $('#copy').addEventListener('click', async () => {
+      const text = $('#session').value
+      try {
+        await navigator.clipboard.writeText(text)
+      } catch {
+        $('#session').select()
+        document.execCommand('copy')
+      }
+      $('#copy').textContent = 'Copied!'
+      setTimeout(() => ($('#copy').textContent = 'Copy session ID'), 1500)
+    })
+
+    $('#retry').addEventListener('click', reset)
+    $('#again').addEventListener('click', () => {
+      $('#number').value = ''
+      reset()
+    })
+  </script>
+</body>
+</html>
