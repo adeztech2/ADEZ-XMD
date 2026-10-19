@@ -15,12 +15,13 @@ const config = require('./config')
 
 const app = express()
 app.use(express.json())
+app.use(express.static(path.join(__dirname, 'public')))
 
 const TMP = path.join(__dirname, 'tmp')
 const jobs = new Map()
 const EXPIRE_MS = 5 * 60 * 1000
 
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'pair.html')))
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public', 'pair.html')))
 
 app.post('/api/pair', async (req, res) => {
   const number = String(req.body.number || '').replace(/\D/g, '')
