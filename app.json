@@ -1,0 +1,16 @@
+{
+  "name": "ADEZ XMD",
+  "description": "WhatsApp bot by Arnold Adez",
+  "repository": "https://github.com/yourname/adez-xmd",
+  "keywords": ["node", "whatsapp", "bot"],
+  "env": {
+    "SESSION_ID": {
+      "description": "Session ID from the pairing page. Leave empty on first deploy.",
+      "required": false
+    }
+  },
+  "formation": {
+    "web": { "quantity": 1 },
+    "worker": { "quantity": 1 }
+  }
+}
